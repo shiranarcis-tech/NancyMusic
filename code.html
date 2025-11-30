@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Join Home Flavors</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#E87461",
+                        "background-light": "#FDF8F5",
+                        "background-dark": "#333333",
+                        "text-light": "#333333",
+                        "text-dark": "#FDF8F5",
+                        "success": "#5CB85C",
+                        "error": "#D9534F"
+                    },
+                    fontFamily: {
+                        "display": ["Epilogue", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden p-4 sm:p-6 lg:p-8">
+<div class="layout-container flex h-full grow flex-col w-full max-w-2xl">
+<div class="flex flex-col items-center justify-center py-5">
+<div class="layout-content-container flex flex-col w-full">
+<div class="flex flex-col items-center text-center p-4">
+<p class="text-4xl font-black leading-tight tracking-[-0.033em] text-text-light dark:text-text-dark">Join Home Flavors</p>
+<p class="mt-2 text-lg text-gray-600 dark:text-gray-300">הצטרפו לטעמי הבית</p>
+</div>
+<form class="w-full mt-8 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col flex-1">
+<p class="text-base font-medium leading-normal pb-2">First Name</p>
+<div class="flex w-full flex-1 items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light bg-white dark:bg-gray-800 dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary h-14 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal border border-gray-200 dark:border-gray-700" placeholder="Enter your first name" value=""/>
+</div>
+</label>
+<label class="flex flex-col flex-1">
+<p class="text-base font-medium leading-normal pb-2">Last Name</p>
+<div class="flex w-full flex-1 items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light bg-white dark:bg-gray-800 dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary h-14 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal border border-gray-200 dark:border-gray-700" placeholder="Enter your last name" value=""/>
+</div>
+</label>
+</div>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-base font-medium leading-normal pb-2">Username</p>
+<div class="flex w-full flex-1 items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light bg-white dark:bg-gray-800 dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary h-14 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal border border-gray-200 dark:border-gray-700" placeholder="Enter your username" value=""/>
+</div>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-base font-medium leading-normal pb-2">Email</p>
+<div class="relative flex w-full flex-1 items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light bg-white dark:bg-gray-800 dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary h-14 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal border border-gray-200 dark:border-gray-700" placeholder="Enter your email" value=""/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 text-success">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+</div>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-base font-medium leading-normal pb-2">Password</p>
+<div class="relative flex w-full flex-1 items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light bg-white dark:bg-gray-800 dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary h-14 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal border border-gray-200 dark:border-gray-700" placeholder="Enter your password" type="password" value=""/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mt-2">
+<div class="bg-success h-1.5 rounded-full" style="width: 75%"></div>
+</div>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-base font-medium leading-normal pb-2">Confirm Password</p>
+<div class="relative flex w-full flex-1 items-stretch rounded-lg">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light bg-white dark:bg-gray-800 dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary h-14 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal border border-gray-200 dark:border-gray-700" placeholder="Confirm your password" type="password" value=""/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400" type="button">
+<span class="material-symbols-outlined">visibility_off</span>
+</button>
+</div>
+<p class="text-error text-sm mt-1">Passwords do not match.</p>
+</label>
+<div class="pt-4">
+<button class="w-full flex items-center justify-center rounded-lg bg-primary h-14 px-6 text-base font-bold text-white shadow-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark" type="submit">
+                                Sign Up / הרשמה
+                            </button>
+</div>
+</form>
+<div class="hidden mt-6 p-4 rounded-lg bg-success/20 text-success text-center" id="success-message">
+<p class="font-semibold">Registration successful!</p>
+<p>Please check your email to verify your account.</p>
+</div>
+<div class="mt-8 text-center">
+<p class="text-base text-gray-600 dark:text-gray-300">
+                            Already have an account? 
+                            <a class="font-medium text-primary hover:underline" href="#">Log in</a> / יש לכם כבר חשבון? <a class="font-medium text-primary hover:underline" href="#">התחברו</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
