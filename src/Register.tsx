@@ -1,21 +1,44 @@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function Register() {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [birthday, setBirthday] = useState('');
+    const [birthdayError, setBirthdayError] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const validateAge = (dateString: string) => {
+        const today = new Date();
+        const birthDate = new Date(dateString);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        if (age <= 7) {
+            setBirthdayError('Age must be greater than 7');
+        } else {
+            setBirthdayError('');
+        }
+    };
+
+    const handleBirthdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value;
+        setBirthday(val);
+        validateAge(val);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (birthdayError) return;
+        // Handle registration logic here
+        console.log('Registering with:', { firstName, lastName, birthday, email, password, confirmPassword });
+    };
+
     return (
         <div className="flex flex-col min-h-screen font-display bg-background-light dark:bg-background-dark">
             <div className="relative flex-grow flex flex-col items-center justify-center p-4">
@@ -27,7 +50,43 @@ export default function Register() {
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-black dark:text-white">הצטרפות לNancyMusic</h1>
                     </div>
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit}>
+                        <div className="flex gap-4">
+                            <div className="w-1/2">
+                                <label className="sr-only" htmlFor="first-name">First Name</label>
+                                <input
+                                    className="form-input w-full rounded-lg h-14 p-4 text-base bg-background-light/80 dark:bg-background-dark/80 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                                    id="first-name"
+                                    placeholder="שם פרטי"
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                            </div>
+                            <div className="w-1/2">
+                                <label className="sr-only" htmlFor="last-name">Last Name</label>
+                                <input
+                                    className="form-input w-full rounded-lg h-14 p-4 text-base bg-background-light/80 dark:bg-background-dark/80 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                                    id="last-name"
+                                    placeholder="שם משפחה"
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="sr-only" htmlFor="birthday">Birthday</label>
+                            <input
+                                className={`form-input w-full rounded-lg h-14 p-4 text-base bg-background-light/80 dark:bg-background-dark/80 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border focus:ring-primary focus:border-primary ${birthdayError ? 'border-red-500 text-red-500' : 'border-gray-300 dark:border-gray-700'}`}
+                                id="birthday"
+                                placeholder="תאריך לידה"
+                                type="date"
+                                value={birthday}
+                                onChange={handleBirthdayChange}
+                            />
+                            {birthdayError && <p className="text-red-500 text-sm mt-1">{birthdayError}</p>}
+                        </div>
                         <div>
                             <label className="sr-only" htmlFor="email">Email</label>
                             <input
@@ -35,6 +94,8 @@ export default function Register() {
                                 id="email"
                                 placeholder="דוא״ל"
                                 type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div>
@@ -44,6 +105,8 @@ export default function Register() {
                                 id="password"
                                 placeholder="סיסמה"
                                 type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
                         <div>
@@ -53,6 +116,8 @@ export default function Register() {
                                 id="confirm-password"
                                 placeholder="אימות סיסמה"
                                 type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>
                         <button
