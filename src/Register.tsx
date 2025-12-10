@@ -1,6 +1,9 @@
 
 
 import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from './firebase';
 
 export default function Register() {
     const [firstName, setFirstName] = useState('');
@@ -32,11 +35,33 @@ export default function Register() {
         validateAge(val);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (birthdayError) return;
-        // Handle registration logic here
-        console.log('Registering with:', { firstName, lastName, birthday, email, password, confirmPassword });
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            await setDoc(doc(db, "users", user.uid), {
+                firstName,
+                lastName,
+                birthday,
+                email
+            });
+
+            console.log('User registered:', user.uid);
+            alert('Registration successful!');
+
+        } catch (error: any) {
+            console.error("Error registering user:", error);
+            alert(error.message);
+        }
     };
 
     return (
