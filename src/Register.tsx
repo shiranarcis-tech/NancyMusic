@@ -1,6 +1,7 @@
 
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
@@ -153,12 +154,12 @@ export default function Register() {
                         </button>
                     </form>
                     <div className="text-center mt-6">
-                        <a
+                        <Link
                             className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors"
-                            href="#"
+                            to="/login"
                         >
                             כבר יש לך חשבון? התחברות
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
