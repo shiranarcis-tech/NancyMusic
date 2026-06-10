@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create New Playlist - NancyMusic</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5b13ec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#161022",
+            },
+            fontFamily: {
+              "display": ["Spline Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.375rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+      .bg-logo {
+        background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0C8.954 0 0 8.954 0 20C0 31.046 8.954 40 20 40C31.046 40 40 31.046 40 20C40 8.954 31.046 0 20 0Z' fill='%235b13ec' fill-opacity='0.1'/%3E%3C/svg%3E%0A");
+        background-size: 50px 50px;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
+<div class="relative flex min-h-screen w-full flex-col items-center bg-logo p-4 pt-16">
+<div class="w-full max-w-2xl space-y-8">
+<div class="text-center">
+<h1 class="text-5xl font-extrabold text-gray-900 dark:text-white">Create new playlist</h1>
+</div>
+<div class="space-y-6 rounded-xl bg-white dark:bg-[#221933] p-8 shadow-lg">
+<div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+<div class="md:col-span-1">
+<label class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-background-light p-6 text-center hover:bg-gray-200 dark:border-[#443267] dark:bg-background-dark dark:hover:bg-[#2a203f]">
+<div class="space-y-2">
+<span class="material-symbols-outlined text-4xl text-gray-400 dark:text-[#a492c9]">image</span>
+<p class="text-sm font-medium text-gray-600 dark:text-[#a492c9]">Playlist Image</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Click to upload</p>
+</div>
+<input class="hidden" type="file"/>
+</label>
+</div>
+<div class="space-y-6 md:col-span-2">
+<label class="flex flex-col">
+<span class="pb-2 text-sm font-medium text-gray-600 dark:text-[#a492c9]">Playlist Name</span>
+<input class="form-input w-full rounded-lg border-gray-300 bg-background-light p-4 text-base font-normal text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary dark:border-[#443267] dark:bg-background-dark dark:text-white dark:placeholder:text-[#a492c9] dark:focus:ring-primary" placeholder="e.g., My Awesome Mix" type="text"/>
+</label>
+<label class="flex flex-col">
+<span class="pb-2 text-sm font-medium text-gray-600 dark:text-[#a492c9]">Description</span>
+<textarea class="form-textarea w-full rounded-lg border-gray-300 bg-background-light p-4 text-base font-normal text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary dark:border-[#443267] dark:bg-background-dark dark:text-white dark:placeholder:text-[#a492c9] dark:focus:ring-primary" placeholder="A short description of your playlist" rows="4"></textarea>
+</label>
+</div>
+</div>
+<div>
+<button class="flex w-full items-center justify-center rounded-lg bg-primary px-4 py-4 text-lg font-bold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark">
+                    Create playlist
+                </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Upload New Song</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1DB954",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#191414",
+                        "secondary-text": "#B3B3B3",
+                        "border-color": "#B3B3B3"
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden group/design-root">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<div class="flex flex-wrap justify-between gap-3 p-4">
+<p class="text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Upload a New Song</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-8 p-4">
+<div class="flex-1 flex flex-col gap-6">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-white text-base font-medium leading-normal pb-2">Song Name</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-border-color/50 bg-white/10 focus:border-primary h-14 placeholder:text-secondary-text p-[15px] text-base font-normal leading-normal" placeholder="Enter song name" value=""/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-white text-base font-medium leading-normal pb-2">Singer Name</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-border-color/50 bg-white/10 focus:border-primary h-14 placeholder:text-secondary-text p-[15px] text-base font-normal leading-normal" placeholder="Enter singer name" value=""/>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-white text-base font-medium leading-normal pb-2">Song File</p>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-border-color/50 bg-white/10 focus:border-primary h-14 placeholder:text-secondary-text p-[15px] text-base font-normal leading-normal" placeholder="Upload your song file (MP3, WAV)" value=""/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-secondary-text">upload_file</span>
+</div>
+<p class="text-red-500 text-sm mt-1 hidden">Please select a valid audio file.</p>
+</label>
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-white text-base font-medium leading-normal pb-2">Add to Playlist</p>
+<div class="relative">
+<select class="form-select appearance-none w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-border-color/50 bg-white/10 focus:border-primary h-14 p-[15px] text-base font-normal leading-normal">
+<option>Select a playlist</option>
+<option>My Favorites</option>
+<option>Workout Jams</option>
+<option>Chill Vibes</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-secondary-text pointer-events-none">expand_more</span>
+</div>
+</label>
+</div>
+<div class="flex-1 flex flex-col gap-6">
+<div class="flex flex-col p-4">
+<div class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color/50 px-6 py-14 h-full justify-center">
+<div class="flex max-w-[480px] flex-col items-center gap-2">
+<p class="text-white text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">Song Cover Image</p>
+<p class="text-secondary-text text-sm font-normal leading-normal max-w-[480px] text-center">Drag and drop an image here, or click to upload</p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-white/20">
+<span class="truncate">Upload Image</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row justify-end gap-4 p-4">
+<div class="flex items-center gap-2 text-red-500">
+<span class="material-symbols-outlined">error_outline</span>
+<p>This song already exists in your library.</p>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-secondary-text/30 text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-secondary-text/40">
+<span class="truncate">Cancel</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+<span class="truncate">Upload Song</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
