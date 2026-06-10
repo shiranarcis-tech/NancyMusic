@@ -1,5 +1,4 @@
-
-import React from 'react';
+// Login.tsx
 import { Link } from 'react-router-dom';
 
 export default function Login() {
