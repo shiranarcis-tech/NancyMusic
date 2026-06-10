@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Icon } from '../components/ui/Icon';
@@ -8,6 +9,7 @@ import { NavLink } from '../components/ui/NavLink';
 import { MOCK_USER, MOCK_ALBUMS, MOCK_SONGS, MOCK_PLAYLISTS, MOCK_LIBRARY } from '../data/mock-data';
 
 export const MainScreen: React.FC = () => {
+  const navigate = useNavigate();
   // Use the first album as the hero
   const heroAlbum = MOCK_ALBUMS[0];
 
@@ -24,7 +26,7 @@ export const MainScreen: React.FC = () => {
           <NavLink href="#" icon="home" active>Home</NavLink>
           <NavLink href="#" icon="library_music">Library</NavLink>
           <NavLink href="#" icon="search">Search</NavLink>
-          <NavLink href="#" icon="playlist_play">My Playlists</NavLink>
+          <NavLink onClick={() => navigate('/profile')} icon="playlist_play">My Playlists</NavLink>
         </nav>
 
         <div className="mt-10">
@@ -111,7 +113,7 @@ export const MainScreen: React.FC = () => {
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Popular Playlists</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {MOCK_PLAYLISTS.map((playlist) => (
-                <Card key={playlist.id} className="flex flex-row items-center gap-4" onClick={() => console.log('Open playlist:', playlist.title)}>
+                <Card key={playlist.id} className="flex flex-row items-center gap-4" onClick={() => navigate(`/playlist/${playlist.id}`)}>
                   <img 
                     src={playlist.coverUrl} 
                     alt="Playlist cover" 
