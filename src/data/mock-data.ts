@@ -19,11 +19,12 @@ export const MOCK_USER: User = {
 export const MOCK_SONGS: Song[] = [
   {
     id: "sng_001",
-    title: "Starlight",
-    artist: "Muse",
+    title: "אורות כחולים",
+    artist: "עומר אדם",
     coverUrl: MOCK_IMAGES.song_starlight,
     plays: 1250040,
-    duration: 239
+    duration: 239,
+    audioUrl: "https://drive.google.com/uc?export=download&id=1fe9aS_cJ0LpUIF9tKT9cHyv9HaZUEE-7"
   },
   {
     id: "sng_002",
@@ -31,7 +32,8 @@ export const MOCK_SONGS: Song[] = [
     artist: "Muse",
     coverUrl: MOCK_IMAGES.song_hysteria,
     plays: 940020,
-    duration: 227
+    duration: 227,
+    audioUrl: "https://drive.google.com/uc?export=download&id=14vW-YmWm1sLUJ5QRie4F_w-WiBsSXc5u"
   },
   {
     id: "sng_003",
@@ -39,7 +41,8 @@ export const MOCK_SONGS: Song[] = [
     artist: "Muse",
     coverUrl: MOCK_IMAGES.album_hero,
     plays: 2100000,
-    duration: 304
+    duration: 304,
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
   },
   {
     id: "sng_004",
@@ -47,7 +50,8 @@ export const MOCK_SONGS: Song[] = [
     artist: "Muse",
     coverUrl: MOCK_IMAGES.user_alex,
     plays: 1800000,
-    duration: 209
+    duration: 209,
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
   },
   {
     id: "sng_005",
@@ -55,7 +59,8 @@ export const MOCK_SONGS: Song[] = [
     artist: "Muse",
     coverUrl: MOCK_IMAGES.song_hysteria,
     plays: 1500000,
-    duration: 236
+    duration: 236,
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
   }
 ];
 

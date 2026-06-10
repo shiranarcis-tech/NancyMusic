@@ -1,0 +1,221 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Icon } from '../components/ui/Icon';
+import { MOCK_SONGS } from '../data/mock-data';
+import type { Song } from '../types';
+
+export const NowPlaying: React.FC = () => {
+  const navigate = useNavigate();
+  const audioRef = useRef<HTMLAudioElement>(null);
+  
+  // Use the first song as default
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  const currentSong = MOCK_SONGS[currentSongIndex];
+
+  // Update current time as audio plays
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(audio.currentTime);
+    };
+
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+    };
+
+    const handleEnded = () => {
+      handleSkipNext();
+    };
+
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, []);
+
+  // Play or pause
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.play().catch((error) => {
+        console.error('Error playing audio:', error);
+        setIsPlaying(false);
+      });
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
+
+  // Load new song when index changes
+  useEffect(() => {
+    if (audioRef.current && currentSong.audioUrl) {
+      audioRef.current.src = currentSong.audioUrl;
+      if (isPlaying) {
+        audioRef.current.play().catch((error) => {
+          console.error('Error playing audio:', error);
+          setIsPlaying(false);
+        });
+      }
+    }
+  }, [currentSongIndex]);
+
+  const formatTime = (seconds: number): string => {
+    if (!seconds || isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleSkipPrevious = () => {
+    setCurrentSongIndex((prev) =>
+      prev === 0 ? MOCK_SONGS.length - 1 : prev - 1
+    );
+    setIsPlaying(true);
+  };
+
+  const handleSkipNext = () => {
+    setCurrentSongIndex((prev) =>
+      prev === MOCK_SONGS.length - 1 ? 0 : prev + 1
+    );
+    setIsPlaying(true);
+  };
+
+  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = parseFloat(e.target.value);
+      setCurrentTime(parseFloat(e.target.value));
+    }
+  };
+
+  const handleAddToPlaylist = () => {
+    console.log('Adding to playlist:', currentSong.title);
+  };
+
+  const handleFavorite = () => {
+    setIsFavorited(!isFavorited);
+    console.log('Favorited:', currentSong.title);
+  };
+
+  const progressPercent = duration ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark p-4 font-display text-gray-900 dark:text-white">
+      {/* Hidden Audio Element */}
+      <audio ref={audioRef} />
+
+      <div className="w-full max-w-md space-y-6">
+        {/* Album Cover and Song Info */}
+        <div className="flex flex-col items-center space-y-6">
+          <img
+            alt={currentSong.title}
+            className="h-80 w-80 rounded-xl object-cover shadow-2xl"
+            src={currentSong.coverUrl}
+          />
+          <div className="text-center">
+            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">
+              {currentSong.title}
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              {currentSong.artist}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {new Date().getFullYear()}
+            </p>
+          </div>
+        </div>
+
+        {/* Progress Bar and Controls */}
+        <div className="space-y-4">
+          {/* Progress Slider */}
+          <div className="space-y-1">
+            <div className="relative h-2 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden">
+              <input
+                type="range"
+                min="0"
+                max={duration || 0}
+                value={currentTime}
+                onChange={handleProgressChange}
+                className="absolute w-full h-2 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-lg"
+              />
+              <div
+                className="absolute h-2 rounded-full bg-primary pointer-events-none"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            <div className="flex justify-between text-xs font-medium text-gray-500 dark:text-gray-400">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+          </div>
+
+          {/* Playback Controls */}
+          <div className="flex items-center justify-center space-x-6">
+            <button
+              onClick={handleSkipPrevious}
+              className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+              aria-label="Skip to previous song"
+            >
+              <Icon name="skip_previous" className="text-4xl" />
+            </button>
+
+            <button
+              onClick={handlePlayPause}
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
+              aria-label={isPlaying ? 'Pause' : 'Play'}
+            >
+              <Icon name={isPlaying ? 'pause' : 'play_arrow'} className="text-5xl" />
+            </button>
+
+            <button
+              onClick={handleSkipNext}
+              className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+              aria-label="Skip to next song"
+            >
+              <Icon name="skip_next" className="text-4xl" />
+            </button>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-center space-x-8 pt-4">
+          <button
+            onClick={handleAddToPlaylist}
+            className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors"
+            aria-label="Add to playlist"
+          >
+            <Icon name="playlist_add" className="text-2xl" />
+          </button>
+          <button
+            onClick={handleFavorite}
+            className={`transition-colors ${
+              isFavorited
+                ? 'text-red-500 dark:text-red-400'
+                : 'text-gray-600 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400'
+            }`}
+            aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            <Icon name={isFavorited ? 'favorite' : 'favorite_border'} className="text-2xl" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

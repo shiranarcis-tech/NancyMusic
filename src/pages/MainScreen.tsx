@@ -25,7 +25,7 @@ export const MainScreen: React.FC = () => {
         <nav className="space-y-4">
           <NavLink href="#" icon="home" active>Home</NavLink>
           <NavLink href="#" icon="library_music">Library</NavLink>
-          <NavLink href="#" icon="search">Search</NavLink>
+          <NavLink onClick={() => navigate('/search')} icon="search">Search</NavLink>
           <NavLink onClick={() => navigate('/profile')} icon="playlist_play">My Playlists</NavLink>
         </nav>
 
@@ -40,7 +40,7 @@ export const MainScreen: React.FC = () => {
         </div>
 
         <div className="mt-10">
-          <Button fullWidth>
+          <Button fullWidth onClick={() => navigate('/create-playlist')}>
             <Icon name="add" /> Create New Playlist
           </Button>
         </div>
@@ -81,7 +81,7 @@ export const MainScreen: React.FC = () => {
               <div className="absolute bottom-0 left-0 p-8 text-white">
                 <h2 className="text-4xl font-bold mb-2">{heroAlbum.title}</h2>
                 <p className="text-lg">{heroAlbum.description}</p>
-                <Button className="mt-4 px-6 rounded-full">
+                <Button className="mt-4 px-6 rounded-full" onClick={() => navigate('/now-playing')}>
                   Listen Now
                 </Button>
               </div>
@@ -95,7 +95,7 @@ export const MainScreen: React.FC = () => {
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">New Songs</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {MOCK_SONGS.map((song) => (
-                <Card key={song.id} className="text-center" onClick={() => console.log('Play song:', song.title)}>
+                <Card key={song.id} className="text-center cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/now-playing')}>
                   <img 
                     src={song.coverUrl} 
                     alt="Song cover" 
