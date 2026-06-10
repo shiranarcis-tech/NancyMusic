@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Playlist - NancyMusic</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5b13ec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#161022",
+            },
+            fontFamily: {
+              "display": ["Spline Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.375rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
+<div class="relative flex min-h-screen w-full flex-col items-center p-4 pt-16">
+<div class="w-full max-w-4xl space-y-8">
+<div class="flex flex-col items-start gap-8 md:flex-row">
+<img alt="Playlist cover" class="h-48 w-48 rounded-xl object-cover shadow-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrkC4P3V2t9F5U5YKkZcnZUu5x14Kl-LInY1P0DRbgfPNsEyV28VC9ZvjBR0nofkwAArsMd8cm90Sttq77ENN06XzwlwAzqaCf31zEFLI-Xn0OmLxd_yvU4AljWKb_voU5Uz5f5cfNLmLbwJT3Gavr-BXJqBNohOfxF1_My3EgM9CXQGiftxF4lOyvKP5taEUcmEZl3btOTb-pc-HY1Hv6eKdC9LAEOS1Oi5XzpvC2MqnKijH8P4nZQJSYFrJoWAOOyUCnBHfzfsY"/>
+<div class="flex flex-col justify-center space-y-4">
+<h1 class="text-5xl font-extrabold text-gray-900 dark:text-white">Playlist name</h1>
+<p class="text-gray-600 dark:text-gray-300">A short description of the playlist goes here. It can be a few sentences long to give users an idea of what to expect.</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">12 songs, 45 min 30 sec</p>
+<div class="flex items-center space-x-4 pt-4">
+<button class="flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-base font-bold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark">
+<span class="material-symbols-outlined">play_arrow</span>
+<span>Play</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-3 text-base font-bold text-gray-700 transition-colors hover:bg-gray-100 dark:border-[#443267] dark:bg-[#221933] dark:text-white dark:hover:bg-[#2a203f]">
+<span class="material-symbols-outlined">add</span>
+<span>Add song</span>
+</button>
+<button class="rounded-lg border border-gray-300 bg-white px-3 py-3 text-gray-700 hover:bg-gray-100 dark:border-[#443267] dark:bg-[#221933] dark:text-white dark:hover:bg-[#2a203f]">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<div class="space-y-2 rounded-xl bg-white dark:bg-[#221933] p-4 shadow-lg">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-sm font-medium text-gray-500 dark:text-gray-400">
+<th class="p-4">#</th>
+<th class="p-4">Song Name</th>
+<th class="hidden p-4 md:table-cell">Artist</th>
+<th class="hidden p-4 md:table-cell">Length</th>
+<th class="p-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-[#443267]">
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#2a203f]">
+<td class="p-4 text-gray-500 dark:text-gray-400">1</td>
+<td class="p-4 font-medium text-gray-900 dark:text-white">Starlight Serenade</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">Cosmic Echoes</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">3:45</td>
+<td class="p-4"><button class="text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400"><span class="material-symbols-outlined">delete</span></button></td>
+</tr>
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#2a203f]">
+<td class="p-4 text-gray-500 dark:text-gray-400">2</td>
+<td class="p-4 font-medium text-gray-900 dark:text-white">Ocean Drive</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">Midnight Club</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">4:12</td>
+<td class="p-4"><button class="text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400"><span class="material-symbols-outlined">delete</span></button></td>
+</tr>
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#2a203f]">
+<td class="p-4 text-gray-500 dark:text-gray-400">3</td>
+<td class="p-4 font-medium text-gray-900 dark:text-white">Electric Dreams</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">Synthwave Surfers</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">3:58</td>
+<td class="p-4"><button class="text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400"><span class="material-symbols-outlined">delete</span></button></td>
+</tr>
+<tr class="group hover:bg-gray-50 dark:hover:bg-[#2a203f]">
+<td class="p-4 text-gray-500 dark:text-gray-400">4</td>
+<td class="p-4 font-medium text-gray-900 dark:text-white">Lost in the Echoes</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">The Wanderers</td>
+<td class="hidden p-4 text-gray-600 dark:text-gray-300 md:table-cell">4:30</td>
+<td class="p-4"><button class="text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400"><span class="material-symbols-outlined">delete</span></button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

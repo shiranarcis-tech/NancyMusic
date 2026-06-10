@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NancyMusic - Login</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5b13ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#161022",
+                        "card-dark": "#1f1830",
+                        "input-dark": "#221933",
+                        "border-dark": "#443267",
+                        "text-muted": "#a492c9",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #161022; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #443267; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5b13ec; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-white min-h-screen flex flex-col relative overflow-x-hidden selection:bg-primary selection:text-white">
+<!-- Decorative Background Elements -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<!-- Abstract music wave background -->
+<div class="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://images.unsplash.com/photo-1614149162883-504ce4d13909?q=80&amp;w=2574&amp;auto=format&amp;fit=crop')] bg-cover bg-center" data-alt="Abstract colorful sound waves and musical energy background" style="filter: blur(8px) grayscale(50%);">
+</div>
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[100px]"></div>
+</div>
+<!-- Main Layout -->
+<div class="relative z-10 flex flex-col items-center justify-center min-h-screen w-full p-4 sm:p-6 lg:p-8">
+<!-- Brand Logo (Centered above card) -->
+<div class="mb-8 flex items-center gap-3 animate-fade-in-down">
+<div class="size-10 text-primary bg-white/10 p-2 rounded-xl backdrop-blur-sm border border-white/10 shadow-[0_0_15px_rgba(91,19,236,0.5)]">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-white text-2xl font-bold tracking-tight">NancyMusic</h1>
+</div>
+<!-- Login Card -->
+<div class="w-full max-w-[440px] flex flex-col gap-6 bg-card-dark/80 backdrop-blur-xl border border-border-dark rounded-2xl shadow-2xl p-6 sm:p-10">
+<!-- Header Section -->
+<div class="text-center space-y-2">
+<h2 class="text-2xl sm:text-3xl font-bold text-white leading-tight">Tune in to your world.</h2>
+<p class="text-text-muted text-sm sm:text-base font-normal">Welcome back! Please enter your details.</p>
+</div>
+<!-- Form Section -->
+<form action="#" class="flex flex-col gap-5 mt-2" method="POST" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="text-white text-sm font-medium leading-normal ml-1" for="email">Email Address</label>
+<div class="relative group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<input class="flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-white placeholder:text-text-muted/60 bg-input-dark border border-border-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-4 text-base font-normal leading-normal transition-all duration-200 outline-none" id="email" placeholder="name@example.com" type="email" value=""/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex items-center justify-between ml-1">
+<label class="text-white text-sm font-medium leading-normal" for="password">Password</label>
+<a class="text-primary text-xs font-semibold hover:text-purple-400 transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-white placeholder:text-text-muted/60 bg-input-dark border border-border-dark focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-11 text-base font-normal leading-normal transition-all duration-200 outline-none" id="password" placeholder="••••••••" type="password" value=""/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-white transition-colors cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Login Button -->
+<button class="w-full h-12 mt-2 bg-primary hover:bg-[#4a0bc4] active:bg-[#3e08a6] text-white text-base font-bold rounded-lg shadow-[0_4px_14px_0_rgba(91,19,236,0.39)] hover:shadow-[0_6px_20px_rgba(91,19,236,0.23)] hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
+<span>Log In</span>
+<span class="material-symbols-outlined text-[20px]">login</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative flex py-2 items-center">
+<div class="flex-grow border-t border-border-dark"></div>
+<span class="flex-shrink-0 mx-4 text-text-muted text-xs uppercase font-medium tracking-wider">Or continue with</span>
+<div class="flex-grow border-t border-border-dark"></div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-dark bg-[#2a203f] hover:bg-[#34274d] hover:border-white/20 text-white transition-all duration-200 group">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm font-medium">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-11 rounded-lg border border-border-dark bg-[#2a203f] hover:bg-[#34274d] hover:border-white/20 text-white transition-all duration-200 group">
+<svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.3-.69 1.67-1.59 3.28-2.53 3.91zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path>
+</svg>
+<span class="text-sm font-medium">Apple</span>
+</button>
+</div>
+</div>
+<!-- Footer / Sign Up CTA -->
+<div class="mt-8 text-center animate-fade-in-up">
+<p class="text-text-muted text-sm font-normal">
+                Don't have an account? 
+                <button class="text-white font-bold hover:text-primary transition-colors ml-1 inline-flex items-center gap-1 group cursor-pointer">
+                    Create an Account
+                    <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</p>
+</div>
+<!-- Small Helper Links -->
+<div class="mt-8 flex gap-6 text-xs text-text-muted/50">
+<a class="hover:text-text-muted transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-text-muted transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-text-muted transition-colors" href="#">Help Center</a>
+</div>
+</div>
+</body></html>

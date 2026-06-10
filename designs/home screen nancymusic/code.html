@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NancyMusic - Discover and Enjoy Music</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5b13ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#161022",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
+<div class="flex min-h-screen">
+<aside class="w-64 flex-shrink-0 bg-gray-100 dark:bg-gray-800 p-6 hidden md:block">
+<div class="flex items-center gap-2 mb-10">
+<span class="material-symbols-outlined text-primary text-3xl">music_note</span>
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white">NancyMusic</h1>
+</div>
+<nav class="space-y-4">
+<a class="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-semibold bg-gray-200 dark:bg-gray-700 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">home</span> Home
+            </a>
+<a class="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium p-2" href="#">
+<span class="material-symbols-outlined">library_music</span> Library
+            </a>
+<a class="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium p-2" href="#">
+<span class="material-symbols-outlined">search</span> Search
+            </a>
+<a class="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium p-2" href="#">
+<span class="material-symbols-outlined">playlist_play</span> My Playlists
+            </a>
+</nav>
+<div class="mt-10">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Popular Categories</h3>
+<ul class="space-y-2 text-gray-600 dark:text-gray-400">
+<li><a class="hover:text-primary" href="#">Top Artists</a></li>
+<li><a class="hover:text-primary" href="#">Charts</a></li>
+<li><a class="hover:text-primary" href="#">New Releases</a></li>
+<li><a class="hover:text-primary" href="#">Genres</a></li>
+</ul>
+</div>
+<div class="mt-10">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-opacity-90">
+<span class="material-symbols-outlined">add</span> Create New Playlist
+            </button>
+</div>
+<div class="mt-10 text-center text-sm text-gray-500 dark:text-gray-400">
+<p>12,345 Songs</p>
+<p>2,500 Playlists</p>
+<p>5,000 Active Artists</p>
+</div>
+</aside>
+<main class="flex-1 p-6">
+<header class="flex justify-between items-center mb-8">
+<div class="relative w-full max-w-md">
+<input class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-full py-2 px-4 pl-10 text-sm focus:ring-2 focus:ring-primary" placeholder="Search for songs, albums, artists..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">search</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-semibold">Alex Doe</span>
+<img alt="User profile" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv-1z_o4cJuvadexPYqor1l5X-NH0llXEpjKf-MscT7X1_V67-r7PINOrLND_dATOVIYjh5eT64HDlY8Cdv4HrGog8JkWhzG91gmHNPDO4pHD7o_f8Q8t8_YcVL0Goqsl1uo2I5j6MP3K07219Kwg2qYaEWRpdp2o8dQnoPqsBCOufH0cXa8UI6Zj_Zd91TaqV2wBKvfIG5iao-QniqQrohzhfNGR4kNf8rm6OzdcRrvwaDahDnglzI3e0wDOOKAy4uGQLPw_-f0E"/>
+</div>
+</header>
+<section class="mb-12">
+<div class="relative rounded-xl overflow-hidden">
+<img alt="Album cover" class="w-full h-80 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS4mocECblgKu1M7K6sTP31V6AGMWmXt7yl0WnrPbMIGohnf4R9YuRvDxWQO6mz_Ct_6IeX3UqHM6Bm9VWys070zAcATkgVlUoFVxD58uuDCNRSZPNuVc4I04Xvm90pHvDLydJwj_eIfi2RTmxXqFlXhJFPuO6l_m-6-4evT0IJfw8sg_rbiZjhgw0nxVo8G0IR8Q1dUUGRE95UZ0juC1GBSrmgXgvyU1kK-5gqzIBX50Ui3dwAmEd66VUpbjVLV8iGVwVbMaFOdk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 text-white">
+<h2 class="text-4xl font-bold mb-2">New Album Release</h2>
+<p class="text-lg">Check out the latest album from your favorite artist.</p>
+<button class="mt-4 bg-primary text-white font-semibold py-2 px-6 rounded-full hover:bg-opacity-90">Listen Now</button>
+</div>
+</div>
+</section>
+<section>
+<div class="mb-8">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">New Songs</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-center">
+<img alt="Song cover" class="w-full h-40 object-cover rounded-md mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0N6RbJYidR6zLpZeNYvLuuoeUKr5TEhYSbFO1HWhjP8n8gDavBCPIuKBvLD-8PWktTlgHKYSj5ooPNqp9qLskNybkgmEdOmcUsN2i9RIwzyTfCqQPVBGh_D3wRPUYSCtgSAxnjxwYvnZKik3EFClUw4iyQa2--ID3FelkD51-RmAH7TXDYunf0pbn4UqSIruRXJ63M5uA7FkPaMat9g78MoiNO8HePsLdYzPuYos4P8k8E1GgrG0sgj1iBoZaq2NA0hJjrVSqEG8"/>
+<p class="font-semibold">Starlight</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Muse</p>
+</div>
+<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-center">
+<img alt="Song cover" class="w-full h-40 object-cover rounded-md mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuCyjHHwAIwGHkq32MTkRnZPtgtAhL4VdBjIT8DChQk0zgpMOVusmQzIWsJBHKmFlqZed-MCJhl2TvBzgn8r6SbAeyg2nAupjV1VqWQJbUwAKrgKZsydcTivrg7GxBVY4uSSK4yQVoWRwv6IlbPj8ArWFQQwrcblq27lXWisphkPNt8YO7_hkdVwGOY4e-5TVNrGukrnZ8NAAA08UFtW_ThBr0mpo4HZIdALhEbyNevJMyPpG7vzXjThMb7YoWTimg_y8T6mdXo1g"/>
+<p class="font-semibold">Hysteria</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Muse</p>
+</div>
+<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-center">
+<img alt="Song cover" class="w-full h-40 object-cover rounded-md mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS4mocECblgKu1M7K6sTP31V6AGMWmXt7yl0WnrPbMIGohnf4R9YuRvDxWQO6mz_Ct_6IeX3UqHM6Bm9VWys070zAcATkgVlUoFVxD58uuDCNRSZPNuVc4I04Xvm90pHvDLydJwj_eIfi2RTmxXqFlXhJFPuO6l_m-6-4evT0IJfw8sg_rbiZjhgw0nxVo8G0IR8Q1dUUGRE95UZ0juC1GBSrmgXgvyU1kK-5gqzIBX50Ui3dwAmEd66VUpbjVLV8iGVwVbMaFOdk"/>
+<p class="font-semibold">Uprising</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Muse</p>
+</div>
+<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-center">
+<img alt="Song cover" class="w-full h-40 object-cover rounded-md mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv-1z_o4cJuvadexPYqor1l5X-NH0llXEpjKf-MscT7X1_V67-r7PINOrLND_dATOVIYjh5eT64HDlY8Cdv4HrGog8JkWhzG91gmHNPDO4pHD7o_f8Q8t8_YcVL0Goqsl1uo2I5j6MP3K07219Kwg2qYaEWRpdp2o8dQnoPqsBCOufH0cXa8UI6Zj_Zd91TaqV2wBKvfIG5iao-QniqQrohzhfNGR4kNf8rm6OzdcRrvwaDahDnglzI3e0wDOOKAy4uGQLPw_-f0E"/>
+<p class="font-semibold">Supermassive</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Muse</p>
+</div>
+<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-center">
+<img alt="Song cover" class="w-full h-40 object-cover rounded-md mb-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuCyjHHwAIwGHkq32MTkRnZPtgtAhL4VdBjIT8DChQk0zgpMOVusmQzIWsJBHKmFlqZed-MCJhl2TvBzgn8r6SbAeyg2nAupjV1VqWQJbUwAKrgKZsydcTivrg7GxBVY4uSSK4yQVoWRwv6IlbPj8ArWFQQwrcblq27lXWisphkPNt8YO7_hkdVwGOY4e-5TVNrGukrnZ8NAAA08UFtW_ThBr0mpo4HZIdALhEbyNevJMyPpG7vzXjThMb7YoWTimg_y8T6mdXo1g"/>
+<p class="font-semibold">Time is Running Out</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Muse</p>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Popular Playlists</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+<img alt="Playlist cover" class="w-20 h-20 object-cover rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0N6RbJYidR6zLpZeNYvLuuoeUKr5TEhYSbFO1HWhjP8n8gDavBCPIuKBvLD-8PWktTlgHKYSj5ooPNqp9qLskNybkgmEdOmcUsN2i9RIwzyTfCqQPVBGh_D3wRPUYSCtgSAxnjxwYvnZKik3EFClUw4iyQa2--ID3FelkD51-RmAH7TXDYunf0pbn4UqSIruRXJ63M5uA7FkPaMat9g78MoiNO8HePsLdYzPuYos4P8k8E1GgrG0sgj1iBoZaq2NA0hJjrVSqEG8"/>
+<div>
+<p class="font-semibold">Chill Vibes</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">23 songs</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+<img alt="Playlist cover" class="w-20 h-20 object-cover rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS4mocECblgKu1M7K6sTP31V6AGMWmXt7yl0WnrPbMIGohnf4R9YuRvDxWQO6mz_Ct_6IeX3UqHM6Bm9VWys070zAcATkgVlUoFVxD58uuDCNRSZPNuVc4I04Xvm90pHvDLydJwj_eIfi2RTmxXqFlXhJFPuO6l_m-6-4evT0IJfw8sg_rbiZjhgw0nxVo8G0IR8Q1dUUGRE95UZ0juC1GBSrmgXgvyU1kK-5gqzIBX50Ui3dwAmEd66VUpbjVLV8iGVwVbMaFOdk"/>
+<div>
+<p class="font-semibold">Workout Beats</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">45 songs</p>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+<img alt="Playlist cover" class="w-20 h-20 object-cover rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuCyjHHwAIwGHkq32MTkRnZPtgtAhL4VdBjIT8DChQk0zgpMOVusmQzIWsJBHKmFlqZed-MCJhl2TvBzgn8r6SbAeyg2nAupjV1VqWQJbUwAKrgKZsydcTivrg7GxBVY4uSSK4yQVoWRwv6IlbPj8ArWFQQwrcblq27lXWisphkPNt8YO7_hkdVwGOY4e-5TVNrGukrnZ8NAAA08UFtW_ThBr0mpo4HZIdALhEbyNevJMyPpG7vzXjThMb7YoWTimg_y8T6mdXo1g"/>
+<div>
+<p class="font-semibold">Late Night Focus</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">18 songs</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
+<div class="flex justify-center gap-6 mb-4">
+<a class="hover:text-primary" href="#">About</a>
+<a class="hover:text-primary" href="#">Contact</a>
+<a class="hover:text-primary" href="#">Privacy Settings</a>
+<a class="hover:text-primary" href="#">Technical Support</a>
+</div>
+<p>© 2024 NancyMusic. All rights reserved.</p>
+</footer>
+</main>
+</div>
+
+</body></html>
