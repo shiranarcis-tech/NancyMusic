@@ -1,21 +1,57 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Icon } from '../components/ui/Icon';
-import { MOCK_SONGS } from '../data/mock-data';
+import { getSongs } from '../services/firestoreService';
 import type { Song } from '../types';
 
 export const NowPlaying: React.FC = () => {
-  const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement>(null);
   
   // Use the first song as default
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const currentSong = MOCK_SONGS[currentSongIndex];
+  const [songs, setSongs] = useState<Song[]>([]);
+  const currentSong = songs[currentSongIndex];
+
+  useEffect(() => {
+    getSongs()
+      .then((songsData) => {
+        setSongs(songsData);
+        const savedSongId = localStorage.getItem('currentSongId');
+        if (savedSongId && songsData.length > 0) {
+          const index = songsData.findIndex((s) => s.id === savedSongId);
+          if (index !== -1) {
+            setCurrentSongIndex(index);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to load songs from Firestore:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (currentSong?.id) {
+      localStorage.setItem('currentSongId', currentSong.id);
+    }
+  }, [currentSong]);
+
+  useEffect(() => {
+    if (songs.length > 0 && currentSongIndex >= songs.length) {
+      setCurrentSongIndex(0);
+    }
+  }, [songs.length, currentSongIndex]);
+
+  // Memoize handleSkipNext to use in effects
+  const handleSkipNext = useCallback(() => {
+    setCurrentSongIndex((prev) =>
+      songs.length === 0 ? 0 : prev === songs.length - 1 ? 0 : prev + 1
+    );
+    setIsPlaying(true);
+  }, [songs.length]);
 
   // Update current time as audio plays
   useEffect(() => {
@@ -28,50 +64,56 @@ export const NowPlaying: React.FC = () => {
 
     const handleLoadedMetadata = () => {
       setDuration(audio.duration);
+      console.log('Audio loaded, duration:', audio.duration);
     };
 
     const handleEnded = () => {
       handleSkipNext();
     };
 
+    const handleCanPlay = () => {
+      console.log('Audio can play');
+    };
+
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('canplay', handleCanPlay);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('canplay', handleCanPlay);
     };
-  }, []);
+  }, [handleSkipNext]);
 
-  // Play or pause
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !currentSong?.audioUrl) return;
+
+    // Only update the source and load if it's different
+    const isSameSource = audio.src === currentSong.audioUrl;
+    if (!isSameSource) {
+      setCurrentTime(0);
+      setDuration(0);
+      audio.src = currentSong.audioUrl;
+      audio.load();
+    }
 
     if (isPlaying) {
-      audio.play().catch((error) => {
-        console.error('Error playing audio:', error);
-        setIsPlaying(false);
-      });
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying]);
-
-  // Load new song when index changes
-  useEffect(() => {
-    if (audioRef.current && currentSong.audioUrl) {
-      audioRef.current.src = currentSong.audioUrl;
-      if (isPlaying) {
-        audioRef.current.play().catch((error) => {
+      // Use a small delay to ensure audio is ready
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
           console.error('Error playing audio:', error);
           setIsPlaying(false);
         });
       }
+    } else {
+      audio.pause();
     }
-  }, [currentSongIndex]);
+  }, [currentSong, isPlaying]);
 
   const formatTime = (seconds: number): string => {
     if (!seconds || isNaN(seconds)) return '0:00';
@@ -81,22 +123,27 @@ export const NowPlaying: React.FC = () => {
   };
 
   const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
+    if (!currentSong) return;
+    const audio = audioRef.current;
+    if (!audio) {
+      return;
+    }
+
+    if (!audio.src && currentSong.audioUrl) {
+      audio.src = currentSong.audioUrl;
+      audio.load();
+    }
+
+    setIsPlaying((prev) => !prev);
   };
 
-  const handleSkipPrevious = () => {
+  const handleSkipPrevious = useCallback(() => {
+    if (songs.length === 0) return;
     setCurrentSongIndex((prev) =>
-      prev === 0 ? MOCK_SONGS.length - 1 : prev - 1
+      prev === 0 ? songs.length - 1 : prev - 1
     );
     setIsPlaying(true);
-  };
-
-  const handleSkipNext = () => {
-    setCurrentSongIndex((prev) =>
-      prev === MOCK_SONGS.length - 1 ? 0 : prev + 1
-    );
-    setIsPlaying(true);
-  };
+  }, [songs.length]);
 
   const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
@@ -106,20 +153,33 @@ export const NowPlaying: React.FC = () => {
   };
 
   const handleAddToPlaylist = () => {
+    if (!currentSong) return;
     console.log('Adding to playlist:', currentSong.title);
   };
 
   const handleFavorite = () => {
+    if (!currentSong) return;
     setIsFavorited(!isFavorited);
     console.log('Favorited:', currentSong.title);
   };
 
   const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
+  if (!currentSong) {
+    return (
+      <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark p-4 font-display text-gray-900 dark:text-white">
+        <div className="rounded-3xl border border-gray-200 bg-white/80 p-10 text-center shadow-xl dark:border-gray-700 dark:bg-gray-900/80">
+          <p className="text-xl font-semibold text-gray-900 dark:text-white">Loading your music...</p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Please wait while we fetch your playlist.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark p-4 font-display text-gray-900 dark:text-white">
       {/* Hidden Audio Element */}
-      <audio ref={audioRef} />
+      <audio ref={audioRef} preload="auto" />
 
       <div className="w-full max-w-md space-y-6">
         {/* Album Cover and Song Info */}

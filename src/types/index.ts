@@ -7,6 +7,7 @@ export interface User {
   email?: string; // Required for login functionality
   subscriptionTier?: 'free' | 'premium'; // Essential for monetized music apps
   createdAt?: string; // Timestamp for user registration
+  savedSongIds?: string[]; // Liked songs
 }
 
 export interface Song {
@@ -15,6 +16,7 @@ export interface Song {
   artist: string; // Mapped from UI ("Muse")
   coverUrl: string; // Mapped from UI cards
   audioUrl?: string; // Mapped from Upload New Song form
+  length?: string; // Display-friendly time string like '3:45'
   
   // --- Suggested Improvements ---
   duration?: number; // Track length in seconds (UI usually needs '3:24')
@@ -45,6 +47,7 @@ export interface Playlist {
   userId?: string; // ID of the user who created it (e.g., from "My Playlists" sidebar)
   isPublic?: boolean; // Determines visibility to other users
   songIds?: string[]; // The actual tracks within the playlist
+  description?: string; // Playlist description
 }
 
 export interface Library {

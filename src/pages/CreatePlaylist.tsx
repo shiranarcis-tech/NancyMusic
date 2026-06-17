@@ -1,16 +1,25 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
+import { addPlaylist } from '../services/firestoreService';
 import { Icon } from '../components/ui/Icon';
 
 export const CreatePlaylist: React.FC = () => {
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [playlistImage, setPlaylistImage] = useState<string | null>(null);
+  const [playlistImageFile, setPlaylistImageFile] = useState<File | null>(null);
   const [playlistName, setPlaylistName] = useState('');
   const [playlistDescription, setPlaylistDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    setPlaylistImageFile(file);
     const reader = new FileReader();
     reader.onload = () => {
       setPlaylistImage(reader.result as string);
@@ -18,13 +27,44 @@ export const CreatePlaylist: React.FC = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Create playlist:', {
-      name: playlistName,
-      description: playlistDescription,
-      image: playlistImage,
-    });
+    setError('');
+    setIsLoading(true);
+
+    try {
+      if (!playlistName.trim()) {
+        throw new Error('Playlist name is required');
+      }
+
+      let coverUrl = '';
+
+      // Upload cover image if provided
+      if (playlistImageFile) {
+        const storageRef = ref(storage, `playlist-covers/${Date.now()}-${playlistImageFile.name}`);
+        const snapshot = await uploadBytes(storageRef, playlistImageFile);
+        coverUrl = await getDownloadURL(snapshot.ref);
+      }
+
+      // Create playlist in Firestore
+      const newPlaylist = await addPlaylist({
+        title: playlistName,
+        coverUrl: coverUrl,
+        songCount: 0,
+        userId: 'usr_001', // TODO: Get from auth context
+        isPublic: false,
+        songIds: [],
+      });
+
+      console.log('Playlist created:', newPlaylist);
+      navigate('/myplaylist');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create playlist';
+      setError(errorMessage);
+      console.error('Error creating playlist:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -44,6 +84,12 @@ export const CreatePlaylist: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6 rounded-xl bg-white dark:bg-[#221933] p-8 shadow-lg">
+          {error && (
+            <div className="rounded-lg bg-red-100 p-4 text-red-800 dark:bg-red-900 dark:text-red-100">
+              <p className="text-sm font-medium">{error}</p>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="md:col-span-1">
               <label
@@ -71,6 +117,7 @@ export const CreatePlaylist: React.FC = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
+                  disabled={isLoading}
                 />
               </label>
             </div>
@@ -87,6 +134,7 @@ export const CreatePlaylist: React.FC = () => {
                   type="text"
                   className="form-input w-full rounded-lg border-gray-300 bg-background-light p-4 text-base font-normal text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary dark:border-[#443267] dark:bg-background-dark dark:text-white dark:placeholder:text-[#a492c9] dark:focus:ring-primary"
                   required
+                  disabled={isLoading}
                 />
               </label>
 
@@ -100,6 +148,7 @@ export const CreatePlaylist: React.FC = () => {
                   placeholder="A short description of your playlist"
                   rows={4}
                   className="form-textarea w-full rounded-lg border-gray-300 bg-background-light p-4 text-base font-normal text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary dark:border-[#443267] dark:bg-background-dark dark:text-white dark:placeholder:text-[#a492c9] dark:focus:ring-primary"
+                  disabled={isLoading}
                 />
               </label>
             </div>
@@ -108,10 +157,11 @@ export const CreatePlaylist: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="flex w-full items-center justify-center rounded-lg bg-primary px-4 py-4 text-lg font-bold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark"
+              disabled={isLoading}
+              className="flex w-full items-center justify-center rounded-lg bg-primary px-4 py-4 text-lg font-bold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Icon name="add" className="text-lg" />
-              <span>Create playlist</span>
+              <Icon name={isLoading ? 'hourglass_empty' : 'add'} className="text-lg" />
+              <span className="ml-2">{isLoading ? 'Creating...' : 'Create playlist'}</span>
             </button>
           </div>
         </form>

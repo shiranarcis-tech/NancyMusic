@@ -1,9 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Icon } from '../components/ui/Icon';
-import { MOCK_SONGS } from '../data/mock-data';
+import { getSongs } from '../services/firestoreService';
 import type { Song } from '../types';
 
 interface SearchFilters {
@@ -28,17 +27,27 @@ export const SearchSongs: React.FC = () => {
     duration: '',
   });
 
+  const [allSongs, setAllSongs] = useState<Song[]>([]);
+
+  useEffect(() => {
+    getSongs()
+      .then(setAllSongs)
+      .catch((error) => {
+        console.error('Failed to load songs from Firestore:', error);
+      });
+  }, []);
+
   // Live results based on search query only
   const liveResults = useMemo(() => {
     if (!filters.searchQuery) return [];
 
-    return MOCK_SONGS.filter((song) => {
+    return allSongs.filter((song) => {
       return (
         song.title.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
         song.artist.toLowerCase().includes(filters.searchQuery.toLowerCase())
       );
     });
-  }, [filters.searchQuery]);
+  }, [filters.searchQuery, allSongs]);
 
   // Filter results with all filters applied
   const filteredResults = useMemo(() => {
@@ -47,9 +56,11 @@ export const SearchSongs: React.FC = () => {
         song.artist.toLowerCase().includes(advancedFilters.artist.toLowerCase());
 
       const matchesDuration = !advancedFilters.duration || 
-        (advancedFilters.duration === 'short' && song.duration < 180) ||
-        (advancedFilters.duration === 'medium' && song.duration >= 180 && song.duration <= 300) ||
-        (advancedFilters.duration === 'long' && song.duration > 300);
+        (song.duration !== undefined && (
+          (advancedFilters.duration === 'short' && song.duration < 180) ||
+          (advancedFilters.duration === 'medium' && song.duration >= 180 && song.duration <= 300) ||
+          (advancedFilters.duration === 'long' && song.duration > 300)
+        ));
 
       return matchesArtist && matchesDuration;
     });
@@ -80,6 +91,7 @@ export const SearchSongs: React.FC = () => {
   };
 
   const handlePlaySong = (song: Song) => {
+    localStorage.setItem('currentSongId', song.id);
     navigate('/now-playing');
   };
 
@@ -215,7 +227,7 @@ export const SearchSongs: React.FC = () => {
 
                   <div className="flex items-center gap-4">
                     <p className="text-sm text-gray-600 dark:text-[#a492c9]">
-                      {formatDuration(song.duration)}
+                      {formatDuration(song.duration ?? 0)}
                     </p>
                     <button
                       onClick={() => handlePlaySong(song)}

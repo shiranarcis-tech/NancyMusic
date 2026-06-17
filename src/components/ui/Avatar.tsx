@@ -4,7 +4,7 @@ interface AvatarProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: 'sm' | 'md' | 'lg';
 }
 
-export const Avatar: React.FC<AvatarProps> = ({ size = 'md', className = '', alt = "Avatar", ...props }) => {
+export const Avatar: React.FC<AvatarProps> = ({ size = 'md', className = '', alt = "Avatar", src, ...props }) => {
   const sizeClasses = {
     sm: "w-8 h-8",
     md: "w-10 h-10",
@@ -14,6 +14,7 @@ export const Avatar: React.FC<AvatarProps> = ({ size = 'md', className = '', alt
   return (
     <img 
       alt={alt}
+      src={src || undefined}
       className={`rounded-full object-cover ${sizeClasses[size]} ${className}`} 
       {...props} 
     />

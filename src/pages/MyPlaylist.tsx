@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '../components/ui/Avatar';
 import { Button } from '../components/ui/Button';
-import { Card } from '../components/ui/Card';
 import { Icon } from '../components/ui/Icon';
-import { MOCK_USER, MOCK_PLAYLISTS, MOCK_LIBRARY } from '../data/mock-data';
+import { getPlaylists, getUser } from '../services/firestoreService';
+import type { Playlist, User } from '../types';
 
 export const MyPlaylist: React.FC = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
 
-  const user = MOCK_USER;
-  const playlists = MOCK_PLAYLISTS.filter((p) => p.userId === user.id);
+  useEffect(() => {
+    Promise.all([getUser('usr_001'), getPlaylists()])
+      .then(([userData, playlistsData]) => {
+        setUser(userData);
+        setPlaylists(playlistsData.filter((p) => p.userId === userData?.id));
+      })
+      .catch((error) => {
+        console.error('Failed to load user playlists from Firestore:', error);
+      });
+  }, []);
+
+  if (!user) {
+    return (
+      <div className="relative flex min-h-screen w-full flex-col items-center justify-center p-4 bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
+        <div className="rounded-3xl border border-gray-200 bg-white/80 p-10 text-center shadow-xl dark:border-gray-700 dark:bg-gray-900/80">
+          <p className="text-xl font-semibold text-gray-900 dark:text-white">Loading your profile...</p>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Please wait while we fetch your data.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center p-4 bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
@@ -29,7 +50,7 @@ export const MyPlaylist: React.FC = () => {
             <p className="text-sm text-gray-500 dark:text-gray-400">Playlists</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">{MOCK_LIBRARY.savedSongIds.length}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{user.savedSongIds?.length ?? 0}</p>
             <p className="text-sm text-gray-500 dark:text-gray-400">Liked Songs</p>
           </div>
         </div>

@@ -17,15 +17,7 @@ export const MOCK_USER: User = {
 };
 
 export const MOCK_SONGS: Song[] = [
-  {
-    id: "sng_001",
-    title: "אורות כחולים",
-    artist: "עומר אדם",
-    coverUrl: MOCK_IMAGES.song_starlight,
-    plays: 1250040,
-    duration: 239,
-    audioUrl: "https://drive.google.com/uc?export=download&id=1fe9aS_cJ0LpUIF9tKT9cHyv9HaZUEE-7"
-  },
+
   {
     id: "sng_002",
     title: "Hysteria",

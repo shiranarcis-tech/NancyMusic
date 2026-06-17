@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -6,12 +6,35 @@ import { Icon } from '../components/ui/Icon';
 import { Avatar } from '../components/ui/Avatar';
 import { Card } from '../components/ui/Card';
 import { NavLink } from '../components/ui/NavLink';
-import { MOCK_USER, MOCK_ALBUMS, MOCK_SONGS, MOCK_PLAYLISTS, MOCK_LIBRARY } from '../data/mock-data';
+import { getAlbums, getPlaylists, getSongs, getUser } from '../services/firestoreService';
+import type { Album, Playlist, Song, User } from '../types';
 
 export const MainScreen: React.FC = () => {
   const navigate = useNavigate();
-  // Use the first album as the hero
-  const heroAlbum = MOCK_ALBUMS[0];
+  const [user, setUser] = useState<User | null>(null);
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [songs, setSongs] = useState<Song[]>([]);
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+
+  useEffect(() => {
+    Promise.all([
+      getUser('usr_001'),
+      getAlbums(),
+      getSongs(),
+      getPlaylists(),
+    ])
+      .then(([userData, albumData, songData, playlistData]) => {
+        setUser(userData);
+        setAlbums(albumData);
+        setSongs(songData);
+        setPlaylists(playlistData);
+      })
+      .catch((error) => {
+        console.error('Failed to load main screen data from Firestore:', error);
+      });
+  }, []);
+
+  const heroAlbum = albums[0];
 
   return (
     <div className="flex min-h-screen bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white">
@@ -24,7 +47,6 @@ export const MainScreen: React.FC = () => {
 
         <nav className="space-y-4">
           <NavLink href="#" icon="home" active>Home</NavLink>
-          <NavLink href="#" icon="library_music">Library</NavLink>
           <NavLink onClick={() => navigate('/search')} icon="search">Search</NavLink>
           <NavLink onClick={() => navigate('/profile')} icon="playlist_play">My Playlists</NavLink>
         </nav>
@@ -44,12 +66,6 @@ export const MainScreen: React.FC = () => {
             <Icon name="add" /> Create New Playlist
           </Button>
         </div>
-
-        <div className="mt-10 text-center text-sm text-gray-500 dark:text-gray-400">
-          <p>{MOCK_LIBRARY.totalSongs.toLocaleString()} Songs</p>
-          <p>{MOCK_LIBRARY.totalPlaylists.toLocaleString()} Playlists</p>
-          <p>{MOCK_LIBRARY.totalArtists.toLocaleString()} Active Artists</p>
-        </div>
       </aside>
 
       {/* Main Content */}
@@ -63,8 +79,8 @@ export const MainScreen: React.FC = () => {
             />
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm font-semibold">{MOCK_USER.name}</span>
-            <Avatar src={MOCK_USER.avatarUrl} alt="User profile" size="md" />
+            <span className="text-sm font-semibold">{user?.name || 'Loading...'}</span>
+            <Avatar src={user?.avatarUrl || ''} alt="User profile" size="md" />
           </div>
         </header>
 
@@ -81,7 +97,12 @@ export const MainScreen: React.FC = () => {
               <div className="absolute bottom-0 left-0 p-8 text-white">
                 <h2 className="text-4xl font-bold mb-2">{heroAlbum.title}</h2>
                 <p className="text-lg">{heroAlbum.description}</p>
-                <Button className="mt-4 px-6 rounded-full" onClick={() => navigate('/now-playing')}>
+                <Button className="mt-4 px-6 rounded-full" onClick={() => {
+                  if (heroAlbum?.songIds && heroAlbum.songIds.length > 0) {
+                    localStorage.setItem('currentSongId', heroAlbum.songIds[0]);
+                  }
+                  navigate('/now-playing');
+                }}>
                   Listen Now
                 </Button>
               </div>
@@ -94,8 +115,11 @@ export const MainScreen: React.FC = () => {
           <div className="mb-8">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">New Songs</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {MOCK_SONGS.map((song) => (
-                <Card key={song.id} className="text-center cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/now-playing')}>
+              {songs.map((song) => (
+                <Card key={song.id} className="text-center cursor-pointer hover:shadow-lg transition-shadow" onClick={() => {
+                  localStorage.setItem('currentSongId', song.id);
+                  navigate('/now-playing');
+                }}>
                   <img 
                     src={song.coverUrl} 
                     alt="Song cover" 
@@ -112,7 +136,7 @@ export const MainScreen: React.FC = () => {
           <div>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Popular Playlists</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {MOCK_PLAYLISTS.map((playlist) => (
+              {playlists.map((playlist) => (
                 <Card key={playlist.id} className="flex flex-row items-center gap-4" onClick={() => navigate(`/playlist/${playlist.id}`)}>
                   <img 
                     src={playlist.coverUrl} 
