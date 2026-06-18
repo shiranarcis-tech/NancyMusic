@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '../components/ui/Icon';
 import { getSongs } from '../services/firestoreService';
 import type { Song } from '../types';
 
 export const NowPlaying: React.FC = () => {
+  const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement>(null);
   
   // Use the first song as default
@@ -168,6 +170,13 @@ export const NowPlaying: React.FC = () => {
   if (!currentSong) {
     return (
       <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark p-4 font-display text-gray-900 dark:text-white">
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute top-6 left-6 flex items-center gap-1 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+          aria-label="Go back"
+        >
+          <Icon name="arrow_back" className="text-3xl" />
+        </button>
         <div className="rounded-3xl border border-gray-200 bg-white/80 p-10 text-center shadow-xl dark:border-gray-700 dark:bg-gray-900/80">
           <p className="text-xl font-semibold text-gray-900 dark:text-white">Loading your music...</p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Please wait while we fetch your playlist.</p>
@@ -178,6 +187,15 @@ export const NowPlaying: React.FC = () => {
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark p-4 font-display text-gray-900 dark:text-white">
+      {/* Back Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="absolute top-6 left-6 flex items-center gap-1 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+        aria-label="Go back"
+      >
+        <Icon name="arrow_back" className="text-3xl" />
+      </button>
+
       {/* Hidden Audio Element */}
       <audio ref={audioRef} preload="auto" />
 

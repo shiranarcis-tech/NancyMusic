@@ -1,12 +1,13 @@
 
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
 export default function Register() {
+    const navigate = useNavigate();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthday, setBirthday] = useState('');
@@ -52,12 +53,14 @@ export default function Register() {
             await setDoc(doc(db, "users", user.uid), {
                 firstName,
                 lastName,
+                name: `${firstName} ${lastName}`,
                 birthday,
-                email
+                email,
+                avatarUrl: '',
+                savedSongIds: [],
             });
 
-            console.log('User registered:', user.uid);
-            alert('Registration successful!');
+            navigate('/');
 
         } catch (error: any) {
             console.error("Error registering user:", error);
@@ -74,7 +77,8 @@ export default function Register() {
                 ></div>
                 <div className="relative w-full max-w-sm z-10">
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-black dark:text-white">הצטרפות לNancyMusic</h1>
+                        <img src="/nancy.png" alt="NancyMusic" className="mx-auto h-24 w-24 rounded-full object-cover mb-4 shadow-lg" />
+                    <h1 className="text-3xl font-bold text-black dark:text-white">הצטרפות לNancyMusic</h1>
                     </div>
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <div className="flex gap-4">

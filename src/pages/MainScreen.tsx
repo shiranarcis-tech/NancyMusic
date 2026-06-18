@@ -6,19 +6,22 @@ import { Icon } from '../components/ui/Icon';
 import { Avatar } from '../components/ui/Avatar';
 import { Card } from '../components/ui/Card';
 import { NavLink } from '../components/ui/NavLink';
+import { useAuth } from '../contexts/AuthContext';
 import { getAlbums, getPlaylists, getSongs, getUser } from '../services/firestoreService';
 import type { Album, Playlist, Song, User } from '../types';
 
 export const MainScreen: React.FC = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
   const [user, setUser] = useState<User | null>(null);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [songs, setSongs] = useState<Song[]>([]);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
 
   useEffect(() => {
+    if (!currentUser) return;
     Promise.all([
-      getUser('usr_001'),
+      getUser(currentUser.uid),
       getAlbums(),
       getSongs(),
       getPlaylists(),
@@ -78,10 +81,14 @@ export const MainScreen: React.FC = () => {
               icon={<Icon name="search" />}
             />
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-semibold">{user?.name || 'Loading...'}</span>
-            <Avatar src={user?.avatarUrl || ''} alt="User profile" size="md" />
-          </div>
+          <button
+            className="flex items-center gap-3 rounded-full px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
+            onClick={() => navigate('/profile')}
+            aria-label="Go to profile"
+          >
+            <span className="text-sm font-semibold">{user?.name || 'Guest'}</span>
+            <Avatar src={user?.avatarUrl || ''} alt={user?.name || 'User profile'} size="md" />
+          </button>
         </header>
 
         {/* Hero Section */}
